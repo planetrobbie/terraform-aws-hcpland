@@ -9,7 +9,7 @@ module vpc {
   name = var.vpc_name
 
   # The CIDR block for the VPC.
-  cidr = "10.0.0.0/24"
+  cidr = "10.0.0.0/16"
 
   azs             = var.availability_zones
   private_subnets = var.private_subnets
