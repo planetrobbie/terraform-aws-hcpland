@@ -43,3 +43,8 @@ variable "transit_gw_name" {
   type        = string
   default     = "sebastien-hcp-transit"
 }
+
+variable "hcp_account_id" {
+  description = "Account ID required to create a sharing between HCP AWS and our own"
+  type = string
+}
