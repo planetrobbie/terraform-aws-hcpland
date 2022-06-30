@@ -39,7 +39,7 @@ module vpc {
 }
 
 resource "aws_network_interface" "lab_net" {
-  subnet_id   = ${module.vpc.private_subnets[0]}
+  subnet_id   = "${module.vpc.private_subnets[0]}"
   private_ips = var.ec2_private_ips
 
   tags = {
