@@ -47,7 +47,7 @@ resource "aws_instance" "lab_ec2" {
   ami                         = "ami-065deacbcaac64cf2" # Ubuntu 22.04 LTS @ eu-central-1
   instance_type               = "t2.micro"
   subnet_id                   = module.vpc.private_subnets[0]
-  private_ip                  = var.ec2_private_ips
+  private_ip                  = var.ec2_private_ip
   associate_public_ip_address = true
   key_name                    = "admin"
 }

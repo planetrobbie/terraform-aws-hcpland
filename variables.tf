@@ -27,10 +27,10 @@ variable "ssh_pub_key" {
   type        = string
 }
 
-variable "ec2_private_ips" {
+variable "ec2_private_ip" {
   description = "Lab Instance Private IP"
-  type        = list
-  default     = ["10.0.10.10"]
+  type        = string
+  default     = "10.0.10.10"
 }
 
 variable "public_subnets" {
