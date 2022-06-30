@@ -127,7 +127,7 @@ resource "aws_security_group" "lab_sg" {
 }
 
 resource "aws_instance" "lab_ec2" {
-  ami                         = "ami-065deacbcaac64cf2" # Ubuntu 22.04 LTS @ eu-central-1
+  ami                         = "ami-0a5b5c0ea66ec560d" # Debian 11 @ eu-central-1
   instance_type               = "t2.micro"
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
