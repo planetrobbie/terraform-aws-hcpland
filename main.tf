@@ -2,66 +2,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-locals {
-
-  network_acls = {
-    public_inbound = [
-      {
-        rule_number = 100
-        rule_action = "allow"
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-      {
-        rule_number = 110
-        rule_action = "allow"
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-    ]
-    public_outbound = [
-      {
-        rule_number = 100
-        rule_action = "allow"
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-      {
-        rule_number = 110
-        rule_action = "allow"
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-      {
-        rule_number = 130
-        rule_action = "allow"
-        from_port   = 8200
-        to_port     = 8200
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-      {
-        rule_number = 140
-        rule_action = "allow"
-        icmp_code   = -1
-        icmp_type   = 8
-        protocol    = "icmp"
-        cidr_block  = "10.0.0.0/16"
-      },
-      
-    ]
-  }
-}
-
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.14.2"
@@ -75,14 +15,10 @@ module "vpc" {
   private_subnets = var.private_subnets
   public_subnets  = var.public_subnets
 
-  enable_ipv6 = true
+  enable_ipv6 = false
 
   enable_nat_gateway = true
-  single_nat_gateway = true
-
-  public_dedicated_network_acl   = true
-  public_inbound_acl_rules       = local.network_acls["public_inbound"]
-  public_outbound_acl_rules      = local.network_acls["public_outbound"]
+  single_nat_gateway = false
 
   # Additional tags for the public subnets
   public_subnet_tags = {
