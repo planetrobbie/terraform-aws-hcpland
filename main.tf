@@ -47,6 +47,11 @@ resource "aws_network_interface" "lab_net" {
   }
 }
 
+resource "aws_key_pair" "admin" {
+   key_name   = "admin"
+   public_key = var.ssh_pub_key
+}
+
 resource "aws_instance" "lab_ec2" {
   ami           = "ami-065deacbcaac64cf2" #Ubuntu 22.04 LTS @ eu-central-1
   instance_type = "t2.micro"

@@ -22,6 +22,11 @@ variable "private_subnets" {
   default     = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
 }
 
+variable "ssh_pub_key" {
+  description = "Public SSH Key"
+  type        = string
+}
+
 variable "ec2_private_ips" {
   description = "Lab Instance Private IP"
   type        = list
