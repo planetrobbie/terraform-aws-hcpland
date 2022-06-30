@@ -48,7 +48,7 @@ resource "aws_network_interface" "lab_net" {
 }
 
 resource "aws_instance" "lab_ec2" {
-  ami           = "ami-09e513e9eacab10c1" #Ubuntu 22.04 LTS @ eu-central-1
+  ami           = "ami-065deacbcaac64cf2" #Ubuntu 22.04 LTS @ eu-central-1
   instance_type = "t2.micro"
 
   network_interface {
