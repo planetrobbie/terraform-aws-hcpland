@@ -38,16 +38,59 @@ module "vpc" {
   }
 }
 
+module "tgw" {
+  source = "terraform-aws-modules/transit-gateway/aws"
+
+  name        = var.transit_gw_name
+  description = "Transit Gateway as an entry point to HCP services"
+
+  transit_gateway_cidr_blocks = ["10.99.0.0/24"]
+
+  # When "true" there is no need for RAM resources if using multiple AWS accounts
+  enable_auto_accept_shared_attachments = true
+
+  # When "true", allows service discovery through IGMP
+  enable_mutlicast_support = false
+
+  vpc_attachments = {
+    vpc = {
+      vpc_id       = module.vpc.vpc_id
+      subnet_ids   = module.vpc.private_subnets
+      dns_support  = true
+      ipv6_support = true
+
+      transit_gateway_default_route_table_association = false
+      transit_gateway_default_route_table_propagation = false
+
+      tgw_routes = [
+        {
+          destination_cidr_block = "30.0.0.0/16"
+        },
+        {
+          blackhole              = true
+          destination_cidr_block = "0.0.0.0/0"
+        }
+      ]
+    },
+  }
+
+  tags = {
+    usecase     = "pov"
+    environment = "dev"
+    owner       = "infra team"
+  }
+}
+
 resource "aws_key_pair" "admin" {
   key_name   = "admin"
   public_key = var.ssh_pub_key
 }
 
 resource "aws_security_group" "lab_sg" {
-  name = "sebastien_lab_sg"
+  name   = "sebastien_lab_sg"
   vpc_id = module.vpc.vpc_id
   ingress {
-    description      = "Restrict SSH access to the bare minimum soon"
+    description = "Restrict SSH access to the bare minimum soon"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -68,5 +111,5 @@ resource "aws_instance" "lab_ec2" {
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
   key_name                    = "admin"
-  vpc_security_group_ids = [aws_security_group.lab_sg.id]
+  vpc_security_group_ids      = [aws_security_group.lab_sg.id]
 }

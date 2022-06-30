@@ -6,7 +6,7 @@ variable "aws_region" {
 
 variable "availability_zones" {
   description = "A list AZs"
-  type        = list
+  type        = list(any)
   default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
 }
 
@@ -18,13 +18,13 @@ variable "vpc_name" {
 
 variable "public_subnets" {
   description = "A list public subnet cidr blocks"
-  type        = list
+  type        = list(any)
   default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 }
 
 variable "private_subnets" {
   description = "A list private subnets"
-  type        = list
+  type        = list(any)
   default     = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
 }
 
@@ -36,4 +36,10 @@ variable "ssh_pub_key" {
 variable "ec2_source_ip_access" {
   description = "Authorize this source IP"
   type        = string
+}
+
+variable "transit_gateway_name" {
+  description = "Name of the transit gateway"
+  type        = string
+  default     = "sebastien-hcp-transit"
 }
