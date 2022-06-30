@@ -15,7 +15,7 @@ module "vpc" {
   private_subnets = var.private_subnets
   public_subnets  = var.public_subnets
 
-  enable_ipv6 = false
+  enable_ipv6 = true
 
   enable_nat_gateway = true
   single_nat_gateway = false
