@@ -17,7 +17,7 @@ module "vpc" {
 
   enable_ipv6 = true
 
-  enable_nat_gateway = false
+  enable_nat_gateway = true
   single_nat_gateway = true
 
   # Additional tags for the public subnets
@@ -46,11 +46,11 @@ resource "aws_key_pair" "admin" {
 resource "aws_security_group" "lab_sg" {
   name = "sebastien_lab_sg"
   ingress {
-    description      = "Restrict SSH access to the bare minimum"
+    description      = "Restrict SSH access to the bare minimum soon"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["ec2_source_ip_access"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
