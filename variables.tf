@@ -16,6 +16,12 @@ variable "vpc_name" {
   default     = "sebastien-hcp-vpc"
 }
 
+variable "public_subnets" {
+  description = "A list public subnet cidr blocks"
+  type        = list
+  default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+}
+
 variable "private_subnets" {
   description = "A list private subnets"
   type        = list
@@ -27,19 +33,7 @@ variable "ssh_pub_key" {
   type        = string
 }
 
-variable "ec2_private_ip" {
-  description = "Lab Instance Private IP"
-  type        = string
-  default     = "10.0.10.10"
-}
-
 variable "ec2_source_ip_access" {
   description = "Authorize this source IP"
   type        = string
-}
-
-variable "public_subnets" {
-  description = "A list public subnet cidr blocks"
-  type        = list
-  default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 }

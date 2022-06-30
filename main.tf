@@ -129,8 +129,7 @@ resource "aws_security_group" "lab_sg" {
 resource "aws_instance" "lab_ec2" {
   ami                         = "ami-065deacbcaac64cf2" # Ubuntu 22.04 LTS @ eu-central-1
   instance_type               = "t2.micro"
-  subnet_id                   = module.vpc.private_subnets[0]
-  private_ip                  = var.ec2_private_ip
+  subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
   key_name                    = "admin"
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
