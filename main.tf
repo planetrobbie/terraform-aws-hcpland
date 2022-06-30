@@ -43,6 +43,24 @@ resource "aws_key_pair" "admin" {
   public_key = var.ssh_pub_key
 }
 
+resource "aws_security_group" "lab_sg" {
+  name = "sebastien_lab_sg"
+  ingress {
+    description      = "Restrict SSH access to the bare minimum"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["ec2_source_ip_access"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_instance" "lab_ec2" {
   ami                         = "ami-065deacbcaac64cf2" # Ubuntu 22.04 LTS @ eu-central-1
   instance_type               = "t2.micro"
@@ -50,4 +68,5 @@ resource "aws_instance" "lab_ec2" {
   private_ip                  = var.ec2_private_ip
   associate_public_ip_address = true
   key_name                    = "admin"
+  vpc_security_group_ids = [aws_security_group.lab_sg.id]
 }
