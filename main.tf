@@ -45,6 +45,7 @@ resource "aws_key_pair" "admin" {
 
 resource "aws_security_group" "lab_sg" {
   name = "sebastien_lab_sg"
+  vpc_id = module.vpc.vpc_id
   ingress {
     description      = "Restrict SSH access to the bare minimum soon"
     from_port   = 22
