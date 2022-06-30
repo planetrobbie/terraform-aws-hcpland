@@ -37,3 +37,23 @@ module vpc {
     Name = var.vpc_name
   }
 }
+
+resource "aws_network_interface" "lab_net" {
+  subnet_id   = ${module.vpc.private_subnets[0]}
+  private_ips = var.ec2_private_ips
+
+  tags = {
+    Name = "private_network_interface"
+  }
+}
+
+resource "aws_instance" "lab_ec2" {
+  ami           = "ami-09e513e9eacab10c1" #Ubuntu 22.04 LTS @ eu-central-1
+  instance_type = "t2.micro"
+
+  network_interface {
+    network_interface_id = aws_network_interface.lab_net.id
+    device_index         = 0
+  }
+
+}

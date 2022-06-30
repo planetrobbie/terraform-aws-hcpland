@@ -22,6 +22,12 @@ variable "private_subnets" {
   default     = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
 }
 
+variable "ec2_private_ips" {
+  description = "Lab Instance Private IP"
+  type        = list
+  default     = ["10.0.10.10"]
+}
+
 variable "public_subnets" {
   description = "A list public subnet cidr blocks"
   type        = list
