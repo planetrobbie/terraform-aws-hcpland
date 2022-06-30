@@ -107,8 +107,8 @@ resource "aws_security_group" "lab_sg" {
   }
 }
 
-resource "aws_ram_resource_share" "example" {
-  name                      = "example-resource-share"
+resource "aws_ram_resource_share" "arn_for_hcp" {
+  name                      = "arn_for_hcp"
   allow_external_principals = true
 }
 
