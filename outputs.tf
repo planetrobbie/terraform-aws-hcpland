@@ -20,6 +20,10 @@ output "ec2_public_ip" {
   value = aws_instance.lab_ec2.*.public_ip
 }
 
+output "transit_gw_id" {
+  valut = module.tgw.ec2_transit_gateway_id
+}
+
 output "aws_ram_resource_share" {
   value = aws_ram_resource_share.arn_for_hcp.arn
 }

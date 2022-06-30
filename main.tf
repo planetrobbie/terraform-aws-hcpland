@@ -112,6 +112,11 @@ resource "aws_ram_resource_share" "arn_for_hcp" {
   allow_external_principals = true
 }
 
+resource "aws_ram_resource_association" "assoc_transit_gw" {
+  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn
+  resource_arn       = module.tgw.ec2_transit_gateway_arn
+}
+
 resource "aws_instance" "lab_ec2" {
   ami                         = "ami-0a5b5c0ea66ec560d" # Debian 11 @ eu-central-1
   instance_type               = "t2.micro"
