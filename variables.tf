@@ -53,19 +53,19 @@ variable "cgw_bgp_asn" {
 variable "cgw_ip_address" {
   description = "The IPv4 address for the customer gateway device's outside interface."
   type        = string
-  default     = "172.83.124.10"
+  default     = ""
 }
 
 variable "custom_tunnel1_inside_cidr" {
   description = "The CIDR block of the inside IP addresses for the first VPN tunnel"
   type        = string
-  default      = "10.0.40.0/24"
+  default      = "169.254.6.0/30"
 }
 
 variable "custom_tunnel2_inside_cidr" {
   description = "The CIDR block of the inside IP addresses for the second VPN tunnel."
   type        = string
-  default      = "10.0.50.0/24"
+  default      = "169.254.7.0/30"
 }
 
 variable "custom_tunnel1_preshared_key" {
