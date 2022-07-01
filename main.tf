@@ -75,7 +75,7 @@ module "tgw" {
 
 # Route to our Transit Gateway for HCP CIDR
 resource "aws_route" "to_hcp" {
-  route_table_id            = module.vpc.public_route_table_ids
+  route_table_id            = module.vpc.public_route_table_ids[0]
   destination_cidr_block    = "172.25.16.0/20"
   transit_gateway_id        = module.tgw.ec2_transit_gateway_id
 }
