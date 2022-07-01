@@ -61,27 +61,14 @@ module "tgw" {
       subnet_ids   = module.vpc.public_subnets
       dns_support  = true
       ipv6_support = true
-
-      #transit_gateway_default_route_table_association = false
-      #transit_gateway_default_route_table_propagation = false
-
-      #tgw_routes = [
-      #  {
-      #    destination_cidr_block = "172.25.16.0/20"
-      #  },
-      #  {
-      #    blackhole              = true
-      #    destination_cidr_block = "0.0.0.0/0"
-      #  }
-      #]
     },
   }
 
-  #tags = {
-  #  usecase     = "pov"
-  #  environment = "dev"
-  #  owner       = "infra team"
-  #}
+  tags = {
+    usecase     = "pov"
+    environment = "dev"
+    owner       = "infra team"
+  }
 }
 
 resource "aws_key_pair" "admin" {
