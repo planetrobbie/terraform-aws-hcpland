@@ -22,7 +22,8 @@ module "vpc" {
 
   enable_nat_gateway = true
   single_nat_gateway = false
-
+  enable_vpn_gateway = true
+  
   # Additional tags for the public subnets
   public_subnet_tags = {
     Name = "pov_public"

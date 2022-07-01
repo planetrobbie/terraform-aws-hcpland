@@ -12,7 +12,7 @@ Once the deployment is successful, you just have to grab the following outputs a
 - resource_share_arn
 - transit_gw_id
 
-You'll have to set the following terraform variables
+You'll also have to set the following terraform variables
 
 - create_vault_cluster: true
 - vault_cluster_name
