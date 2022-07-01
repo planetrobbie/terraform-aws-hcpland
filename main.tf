@@ -49,38 +49,38 @@ module "tgw" {
   transit_gateway_cidr_blocks = ["10.99.0.0/24"]
 
   # When "true" there is no need for RAM resources if using multiple AWS accounts
-  enable_auto_accept_shared_attachments = true
+  # enable_auto_accept_shared_attachments = true
 
   # When "true", allows service discovery through IGMP
   enable_mutlicast_support = false
 
-  vpc_attachments = {
-    vpc = {
-      vpc_id       = module.vpc.vpc_id
-      subnet_ids   = module.vpc.private_subnets
-      dns_support  = true
-      ipv6_support = true
+  #vpc_attachments = {
+  #  vpc = {
+  #    vpc_id       = module.vpc.vpc_id
+  #    subnet_ids   = module.vpc.private_subnets
+  #    dns_support  = true
+  #    ipv6_support = true
 
-      transit_gateway_default_route_table_association = false
-      transit_gateway_default_route_table_propagation = false
+  #    transit_gateway_default_route_table_association = false
+  #    transit_gateway_default_route_table_propagation = false
 
-      tgw_routes = [
-        {
-          destination_cidr_block = "30.0.0.0/16"
-        },
-        {
-          blackhole              = true
-          destination_cidr_block = "0.0.0.0/0"
-        }
-      ]
-    },
-  }
+  #    tgw_routes = [
+  #      {
+  #        destination_cidr_block = "30.0.0.0/16"
+  #      },
+  #      {
+  #        blackhole              = true
+  #        destination_cidr_block = "0.0.0.0/0"
+  #     }
+  #    ]
+  #  },
+  #}
 
-  tags = {
-    usecase     = "pov"
-    environment = "dev"
-    owner       = "infra team"
-  }
+  #tags = {
+  #  usecase     = "pov"
+  #  environment = "dev"
+  #  owner       = "infra team"
+  #}
 }
 
 resource "aws_key_pair" "admin" {
