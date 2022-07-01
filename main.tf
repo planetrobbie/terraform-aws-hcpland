@@ -71,6 +71,12 @@ module "tgw" {
   }
 }
 
+#resource "aws_route" "to_hcp" {
+#  route_table_id              = ""
+#  destination_ipv6_cidr_block = "::/0"
+#  egress_only_gateway_id      = aws_egress_only_internet_gateway.egress.id
+#}
+
 resource "aws_key_pair" "admin" {
   key_name   = "admin"
   public_key = var.ssh_pub_key

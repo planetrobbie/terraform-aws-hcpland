@@ -1,7 +1,7 @@
 # VPC
 output "vpc_id" {
   description = "The ID of the VPC"
-  value       = "${module.vpc.vpc_id}"
+  value       = module.vpc.vpc_id
 }
 
 # CIDR blocks
@@ -26,4 +26,8 @@ output "transit_gw_id" {
 
 output "aws_ram_resource_share" {
   value = aws_ram_resource_share.arn_for_hcp.arn
+}
+
+output "public_route_table_ids" {
+  value = module.vpc.public_route_table_ids
 }
