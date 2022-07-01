@@ -59,23 +59,23 @@ variable "cgw_ip_address" {
 variable "custom_tunnel1_inside_cidr" {
   description = "The CIDR block of the inside IP addresses for the first VPN tunnel"
   type        = string
-  defaut      = ""
+  default      = ""
 }
 
 variable "custom_tunnel2_inside_cidr" {
   description = "The CIDR block of the inside IP addresses for the second VPN tunnel."
   type        = string
-  defaut      = ""
+  default      = ""
 }
 
 variable "custom_tunnel1_preshared_key" {
   description = "The preshared key of the first VPN tunnel."
   type        = string
-  defaut      = ""
+  default      = ""
 }
 
 variable "custom_tunnel2_preshared_key" {
   description = "The preshared key of the second VPN tunnel."
   type        = string
-  defaut      = ""
+  default      = ""
 }
