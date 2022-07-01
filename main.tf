@@ -2,6 +2,7 @@ provider "aws" {
   region = var.aws_region
 }
 
+# VPC which is attached to our transit gateway
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.14.2"
@@ -40,6 +41,7 @@ module "vpc" {
   }
 }
 
+# Transit Gateway which will be attached to HCP
 module "tgw" {
   source = "terraform-aws-modules/transit-gateway/aws"
 
@@ -71,17 +73,20 @@ module "tgw" {
   }
 }
 
-#resource "aws_route" "to_hcp" {
-#  route_table_id              = ""
-#  destination_ipv6_cidr_block = "::/0"
-#  egress_only_gateway_id      = aws_egress_only_internet_gateway.egress.id
-#}
+# Route to our Transit Gateway for HCP CIDR
+resource "aws_route" "to_hcp" {
+  route_table_id            = module.vpc.public_route_table_ids
+  destination_cidr_block    = "172.25.16.0/20"
+  transit_gateway_id        = module.tgw.ec2_transit_gateway_id
+}
 
+# To remotely access our test instance for troubleshooting
 resource "aws_key_pair" "admin" {
   key_name   = "admin"
   public_key = var.ssh_pub_key
 }
 
+# Allow remote SSH connectivity and everything outbound
 resource "aws_security_group" "lab_sg" {
   name   = "sebastien_lab_sg"
   vpc_id = module.vpc.vpc_id
@@ -101,6 +106,7 @@ resource "aws_security_group" "lab_sg" {
   }
 }
 
+# To allow HCP to attach to our transit gateway
 resource "aws_ram_resource_share" "arn_for_hcp" {
   name                      = "arn_for_hcp"
   allow_external_principals = true
@@ -111,6 +117,7 @@ resource "aws_ram_resource_association" "assoc_transit_gw" {
   resource_arn       = module.tgw.ec2_transit_gateway_arn
 }
 
+# Test instance
 resource "aws_instance" "lab_ec2" {
   ami                         = "ami-0a5b5c0ea66ec560d" # Debian 11 @ eu-central-1
   instance_type               = "t2.micro"
