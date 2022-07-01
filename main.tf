@@ -16,14 +16,14 @@ module "vpc" {
   private_subnets = var.private_subnets
   public_subnets  = var.public_subnets
 
-  enable_ipv6 = true
-  public_subnet_ipv6_prefixes   = [0, 1, 2]
-  private_subnet_ipv6_prefixes  = [3, 4, 5]
+  enable_ipv6                  = true
+  public_subnet_ipv6_prefixes  = [0, 1, 2]
+  private_subnet_ipv6_prefixes = [3, 4, 5]
 
   enable_nat_gateway = true
   single_nat_gateway = false
   enable_vpn_gateway = true
-  
+
   # Additional tags for the public subnets
   public_subnet_tags = {
     Name = "pov_public"
@@ -76,9 +76,39 @@ module "tgw" {
 
 # Route to our Transit Gateway for HCP CIDR
 resource "aws_route" "to_hcp" {
-  route_table_id            = module.vpc.public_route_table_ids[0]
-  destination_cidr_block    = "172.25.16.0/20"
-  transit_gateway_id        = module.tgw.ec2_transit_gateway_id
+  route_table_id         = module.vpc.public_route_table_ids[0]
+  destination_cidr_block = "172.25.16.0/20"
+  transit_gateway_id     = module.tgw.ec2_transit_gateway_id
+}
+
+# Remote Customer Gateway details for VPN Connectivity
+resource "aws_customer_gateway" "cgw" {
+  bgp_asn    = var.cgw_bgp_asn
+  ip_address = var.cgw_ip_address
+  type       = "ipsec.1"
+
+  tags = {
+    Name = "cgw"
+  }
+}
+
+# VPN Gateway
+module "vpn-gateway" {
+  source  = "terraform-aws-modules/vpn-gateway/aws"
+  version = "2.12.1"
+
+  create_vpn_gateway_attachment = false
+  connect_to_transit_gateway    = true
+
+  vpc_id              = module.vpc.vpc_id
+  transit_gateway_id  = module.tgw.ec2_transit_gateway_id
+  customer_gateway_id = aws_customer_gateway.cgw.id
+
+  # tunnel inside cidr & preshared keys (optional)
+  tunnel1_inside_cidr   = var.custom_tunnel1_inside_cidr
+  tunnel2_inside_cidr   = var.custom_tunnel2_inside_cidr
+  tunnel1_preshared_key = var.custom_tunnel1_preshared_key
+  tunnel2_preshared_key = var.custom_tunnel2_preshared_key
 }
 
 # To remotely access our test instance for troubleshooting

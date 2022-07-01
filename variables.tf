@@ -43,3 +43,39 @@ variable "transit_gw_name" {
   type        = string
   default     = "sebastien-hcp-transit"
 }
+
+variable "cgw_bgp_asn" {
+  description = "The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN)"
+  type        = string
+  default     = "65000"
+}
+
+variable "cgw_ip_address" {
+  description = "The IPv4 address for the customer gateway device's outside interface."
+  type        = string
+  default     = "172.83.124.10"
+}
+
+variable "custom_tunnel1_inside_cidr" {
+  description = "The CIDR block of the inside IP addresses for the first VPN tunnel"
+  type        = string
+  defaut      = ""
+}
+
+variable "custom_tunnel2_inside_cidr" {
+  description = "The CIDR block of the inside IP addresses for the second VPN tunnel."
+  type        = string
+  defaut      = ""
+}
+
+variable "custom_tunnel1_preshared_key" {
+  description = "The preshared key of the first VPN tunnel."
+  type        = string
+  defaut      = ""
+}
+
+variable "custom_tunnel2_preshared_key" {
+  description = "The preshared key of the second VPN tunnel."
+  type        = string
+  defaut      = ""
+}
