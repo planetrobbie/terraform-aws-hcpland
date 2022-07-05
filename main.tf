@@ -84,6 +84,7 @@ resource "aws_route" "to_hcp" {
 
 # Remote Customer Gateway details for VPN Connectivity
 resource "aws_customer_gateway" "cgw" {
+  count = var.transit_gateway ? 1 : 0
   bgp_asn    = var.cgw_bgp_asn
   ip_address = var.cgw_ip_address
   type       = "ipsec.1"
@@ -97,6 +98,7 @@ resource "aws_customer_gateway" "cgw" {
 module "vpn-gateway" {
   source  = "terraform-aws-modules/vpn-gateway/aws"
   version = "2.12.1"
+  count = var.transit_gateway ? 1 : 0
 
   create_vpn_gateway_attachment = false
   connect_to_transit_gateway    = true
@@ -111,6 +113,20 @@ module "vpn-gateway" {
   tunnel1_preshared_key = var.custom_tunnel1_preshared_key
   tunnel2_preshared_key = var.custom_tunnel2_preshared_key
 }
+
+# To allow HCP to attach to our transit gateway
+resource "aws_ram_resource_share" "arn_for_hcp" {
+  count = var.transit_gateway ? 1 : 0
+  name                      = "arn_for_hcp"
+  allow_external_principals = true
+}
+
+resource "aws_ram_resource_association" "assoc_transit_gw" {
+  count = var.transit_gateway ? 1 : 0
+  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn
+  resource_arn       = module.tgw.ec2_transit_gateway_arn
+}
+
 
 # To remotely access our test instance for troubleshooting
 resource "aws_key_pair" "admin" {
@@ -136,17 +152,6 @@ resource "aws_security_group" "lab_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-# To allow HCP to attach to our transit gateway
-resource "aws_ram_resource_share" "arn_for_hcp" {
-  name                      = "arn_for_hcp"
-  allow_external_principals = true
-}
-
-resource "aws_ram_resource_association" "assoc_transit_gw" {
-  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn
-  resource_arn       = module.tgw.ec2_transit_gateway_arn
 }
 
 # Test instance
