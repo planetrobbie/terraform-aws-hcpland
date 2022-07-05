@@ -124,7 +124,7 @@ resource "aws_ram_resource_share" "arn_for_hcp" {
 resource "aws_ram_resource_association" "assoc_transit_gw" {
   count = var.transit_gateway ? 1 : 0
   resource_share_arn = aws_ram_resource_share.arn_for_hcp[0].arn
-  resource_arn       = module.tgw.ec2_transit_gateway_arn
+  resource_arn       = module.tgw[0].ec2_transit_gateway_arn
 }
 
 
