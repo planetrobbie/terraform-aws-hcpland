@@ -105,7 +105,7 @@ module "vpn-gateway" {
 
   vpc_id              = module.vpc.vpc_id
   transit_gateway_id  = module.tgw.ec2_transit_gateway_id
-  customer_gateway_id = aws_customer_gateway.cgw.id
+  customer_gateway_id = aws_customer_gateway.cgw.id[0]
 
   # tunnel inside cidr & preshared keys (optional)
   tunnel1_inside_cidr   = var.custom_tunnel1_inside_cidr
