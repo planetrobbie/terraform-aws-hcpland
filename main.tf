@@ -105,7 +105,7 @@ module "vpn-gateway" {
 
   vpc_id              = module.vpc.vpc_id
   transit_gateway_id  = module.tgw.ec2_transit_gateway_id
-  customer_gateway_id = aws_customer_gateway.cgw.id[0]
+  customer_gateway_id = aws_customer_gateway.cgw[0].id
 
   # tunnel inside cidr & preshared keys (optional)
   tunnel1_inside_cidr   = var.custom_tunnel1_inside_cidr
@@ -123,7 +123,7 @@ resource "aws_ram_resource_share" "arn_for_hcp" {
 
 resource "aws_ram_resource_association" "assoc_transit_gw" {
   count = var.transit_gateway ? 1 : 0
-  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn[0]
+  resource_share_arn = aws_ram_resource_share.arn_for_hcp[0].arn
   resource_arn       = module.tgw.ec2_transit_gateway_arn
 }
 
