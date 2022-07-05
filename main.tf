@@ -79,7 +79,7 @@ module "tgw" {
 resource "aws_route" "to_hcp" {
   route_table_id         = module.vpc.public_route_table_ids[0]
   destination_cidr_block = "172.25.16.0/20"
-  transit_gateway_id     = module.tgw.ec2_transit_gateway_id[0]
+  transit_gateway_id     = module.tgw[0].ec2_transit_gateway_id
 }
 
 # Remote Customer Gateway details for VPN Connectivity
