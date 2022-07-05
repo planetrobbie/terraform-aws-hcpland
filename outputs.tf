@@ -25,7 +25,7 @@ output "transit_gw_id" {
 }
 
 output "aws_ram_resource_share" {
-  value = aws_ram_resource_share.arn_for_hcp[0].arn
+  value = concat(aws_ram_resource_share.arn_for_hcp.*.arn, [""])[0]
 }
 
 output "public_route_table_ids" {
