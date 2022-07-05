@@ -21,11 +21,11 @@ output "ec2_public_ip" {
 }
 
 output "transit_gw_id" {
-  value = module.tgw.ec2_transit_gateway_id
+  value = module.tgw.ec2_transit_gateway_id[0]
 }
 
 output "aws_ram_resource_share" {
-  value = aws_ram_resource_share.arn_for_hcp.arn
+  value = aws_ram_resource_share.arn_for_hcp.arn[0]
 }
 
 output "public_route_table_ids" {
