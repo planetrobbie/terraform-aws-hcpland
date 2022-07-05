@@ -45,6 +45,7 @@ module "vpc" {
 # Transit Gateway which will be attached to HCP
 module "tgw" {
   source = "terraform-aws-modules/transit-gateway/aws"
+  count = var.transit_gateway ? 1 : 0
 
   name        = var.transit_gw_name
   description = "Transit Gateway as an entry point to HCP services"

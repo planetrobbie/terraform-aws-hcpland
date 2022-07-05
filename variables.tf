@@ -38,6 +38,12 @@ variable "ec2_source_ip_access" {
   type        = string
 }
 
+variable "transit_gateway" {
+  description = "Flag to create an AWS transit gateway"
+  type        = bool
+  default     = false
+}
+
 variable "transit_gw_name" {
   description = "Name of the transit gateway"
   type        = string
