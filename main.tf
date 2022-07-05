@@ -79,7 +79,7 @@ module "tgw" {
 resource "aws_route" "to_hcp" {
   route_table_id         = module.vpc.public_route_table_ids[0]
   destination_cidr_block = "172.25.16.0/20"
-  transit_gateway_id     = module.tgw.ec2_transit_gateway_id
+  transit_gateway_id     = module.tgw.ec2_transit_gateway_id[0]
 }
 
 # Remote Customer Gateway details for VPN Connectivity
@@ -123,7 +123,7 @@ resource "aws_ram_resource_share" "arn_for_hcp" {
 
 resource "aws_ram_resource_association" "assoc_transit_gw" {
   count = var.transit_gateway ? 1 : 0
-  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn
+  resource_share_arn = aws_ram_resource_share.arn_for_hcp.arn[0]
   resource_arn       = module.tgw.ec2_transit_gateway_arn
 }
 
