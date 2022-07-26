@@ -6,6 +6,7 @@ Provision AWS infrastructure to connect to HCP thru a transit gateway. This repo
 - Transit Gateway
 - Ram resource share and association
 - EC2 testing instance, keypair
+- VPN Gateway
 
 Once the deployment is successful, you just have to grab the following outputs and inject them into variables of the following repository. https://github.com/kalenarndt/terraform-hcp-hcp
 
